@@ -48,10 +48,13 @@ class Tuple:
     return self.__class__(-self.x, -self.y, -self.z, -self.w)
   
   def __mul__(self, other):
-        if isinstance(other, int) or isinstance(other, float) and not isinstance(self, Point):
+        if (isinstance(other, int) or isinstance(other, float))and not isinstance(self, Point):
             return self.__class__(self.x * other, self.y * other, self.z * other, self.w * other)
         else:
-           raise ("Error: Only multiplication of scalar and vectors allowed!")
+           raise ("Error: Multiplication operation not allowed between the two types!")
+  
+  def __rmul__(self,other):
+    return self.__mul__(other)
   
   def __truediv__(self, other):
         if isinstance(other, int) or isinstance(other, float) and not isinstance(self, Point):
@@ -80,3 +83,32 @@ class Vector(Tuple):
     return Vector(self.y * other.z - self.z * other.y,
                   self.z * other.x - self.x * other.z,
                   self.x * other.y - self.y * other.x)
+
+class Color(Tuple):
+  def __init__(self, red, green, blue, w = 0):
+     super().__init__(red, green, blue, w)
+     
+  @property
+  def red(self):
+    return self.x
+  
+  @property
+  def green(self):
+    return self.y
+  
+  @property
+  def blue(self):
+    return self.z
+  
+  def __mul__(self, other):
+    if (isinstance(other, Color)):
+            return self.__class__(self.red * other.red, self.green * other.green
+                                  , self.blue * other.blue)
+    else:
+      return super().__mul__(other)
+    
+  def convert_to_rgb(self):
+    red = str(int(min(max(self.red * 256, 0), 255)))
+    green = str(int(min(max(self.green * 256, 0), 255)))
+    blue = str(int(min(max(self.blue * 256, 0), 255)))
+    return red, green, blue

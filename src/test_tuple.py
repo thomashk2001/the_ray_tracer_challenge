@@ -109,3 +109,31 @@ class TestTuples(unittest.TestCase):
     self.assertEqual(a.cross(b), Vector(-1, 2, -1))
     self.assertEqual(b.cross(a), Vector(1, -2, 1))
     
+  def test_color_base(self):
+    c = Color(-0.5, 0.4, 1.7)
+    self.assertEqual(c.red, -0.5)
+    self.assertEqual(c.green, 0.4)
+    self.assertEqual(c.blue, 1.7)
+  
+  def test_add_colors(self):
+    c1= Color(0.9, 0.6, 0.75)
+    c2 = Color(0.7, 0.1, 0.25)
+    r = c1 + c2
+    self.assertEqual(r, Color(1.6, 0.7, 1.0))
+  
+  def test_sub_colors(self):
+    c1= Color(0.9, 0.6, 0.75)
+    c2 = Color(0.7, 0.1, 0.25)
+    r = c1 - c2
+    self.assertEqual(r, Color(0.2, 0.5, 0.5))
+    
+  def test_multiply_color_scalar(self):
+    c1 = Color(0.2, 0.3, 0.4)
+    r = c1 * 2
+    self.assertEqual(r, Color(0.4, 0.6, 0.8))
+    
+  def test_multiply_colors(self):
+    c1 = Color(1, 0.2, 0.4)
+    c2 = Color(0.9, 1, 0.1)
+    r = c1 * c2
+    self.assertEqual(r, Color(0.9, 0.2, 0.04))
