@@ -36,3 +36,8 @@ class Canvas():
         pixel_data += " ".join(sub_list) + "\n"
     ppm_file += pixel_data
     return ppm_file + "\n"
+  
+  def save_to_disk(self):
+    file = open("img.ppm", "w")
+    file.write(self.canvas_to_ppm())
+    file.close()
