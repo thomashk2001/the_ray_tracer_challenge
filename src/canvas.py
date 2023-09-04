@@ -21,7 +21,8 @@ class Canvas():
   
   def generate_sub_list(self, list):
     sub_list_max_size = 17
-    sub_list = [list[i:i+sub_list_max_size] for i in range(0, len(list), 
+    limit = len(list)
+    sub_list = [list[i:i+sub_list_max_size] for i in range(0, limit, 
                                                            sub_list_max_size)]
     return sub_list
   def canvas_to_ppm(self):

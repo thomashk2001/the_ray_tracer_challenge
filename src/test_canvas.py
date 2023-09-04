@@ -36,7 +36,6 @@ class TestCanvas(unittest.TestCase):
             "0 0 0 0 0 0 0 128 0 0 0 0 0 0 0",
             "0 0 0 0 0 0 0 0 0 0 0 0 0 0 255",
     ]
-    print(pixel_data)
     self.assertEqual(pixel_data, expected_pixel_data)
     
   def test_split_long_files(self):
@@ -49,5 +48,4 @@ class TestCanvas(unittest.TestCase):
             "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204",
             "153 255 204 153 255 204 153 255 204 153 255 204 153"
     ]
-    print(pixel_data)
     self.assertEqual(pixel_data, expected_pixel_data)

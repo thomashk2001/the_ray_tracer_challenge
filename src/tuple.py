@@ -16,6 +16,9 @@ class Tuple:
     return abs(self.x - other.x) < EPSILON and abs(self.y - other.y) < EPSILON \
       and abs(self.z - other.z) < EPSILON and self.w == other.w
     
+  def __ne__(self, other):
+    return not self == other
+  
   def add(self, other):
     return(self.x + other.x, self.y + other.y, self.z + other.z, self.w + other.w)
   
