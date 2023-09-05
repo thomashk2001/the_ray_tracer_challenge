@@ -1,17 +1,15 @@
 from tuple import *
 
 class Matrix:
-  def __init__(self, size = 4, default_value = None):
-    if default_value is None:
-      default_value = 0
+  def __init__(self, size = 4, default_value = 0):
     self.size = size
     self.matrix = [[default_value] * size for _ in range(size)]
   def __str__(self):
     string = ""
     for row in self.matrix:
       string+="|"
-      for col in row:
-        string+= str(col) +"|"
+      for item in row:
+        string+= str(item) +"|"
       string+="\n"
     return string
   
@@ -24,7 +22,7 @@ class Matrix:
     limit = self.size
     for row in range(limit):
       for col in range(limit):
-        if self[row][col]!= other[row][col]:
+        if abs(self[row][col] - other[row][col]) > EPSILON:
           return False
     return True
   
@@ -93,9 +91,27 @@ class Matrix:
   
   def cofactor(self, row, col):
     result = self.minor(row, col)
-    if row + col % 2 != 0:
+    if (row + col)% 2 != 0:
       result*= -1
     return result
+  
+  def is_invertible(self):
+    return self.determinant()!=0
+  
+  def inverse(self):
+    if not self.is_invertible():
+      print("Error: Tried inverting non invertible matrix, None was returned!")
+      return None
+    limit = self.size
+    result = Matrix(limit)
+    cofactor = 0
+    determiant = self.determinant()
+    for row in range(limit):
+      for col in range(limit):
+        cofactor = self.cofactor(row, col)
+        result[col][row] = cofactor / determiant
+    return result
+  
 def identity_matrix(size = 4):
   result = Matrix(size)
   for i in range(size):
