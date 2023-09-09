@@ -105,15 +105,16 @@ class Matrix:
     limit = self.size
     result = Matrix(limit)
     cofactor = 0
-    determiant = self.determinant()
+    determinant = self.determinant()
     for row in range(limit):
       for col in range(limit):
         cofactor = self.cofactor(row, col)
-        result[col][row] = cofactor / determiant
+        result[col][row] = cofactor / determinant
     return result
-  
+
 def identity_matrix(size = 4):
   result = Matrix(size)
   for i in range(size):
     result[i][i] = 1
   return result
+
