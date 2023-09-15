@@ -29,12 +29,12 @@ class Matrix:
   def __ne__(self, other):
     return not self == other
   
-  def matrix_tuple_multiplication(self, tuple):
+  def matrix_tuple_class_multiplication(self, tuple):
     result = []
     for row in self.matrix:
       result.append(row[0] * tuple.x + row[1] * tuple.y + row[2] * tuple.z + 
                     row[3] * tuple.w)
-    return Tuple(result[0], result[1], result[2], result[3])
+    return tuple.__class__(result[0], result[1], result[2], result[3])
   
   def matrix_multiplication(self, other):
     limit = self.size
@@ -47,7 +47,7 @@ class Matrix:
 
   def __mul__(self, other):
     if isinstance(other, Tuple):
-      return self.matrix_tuple_multiplication(other)
+      return self.matrix_tuple_class_multiplication(other)
     else:
       return self.matrix_multiplication(other)
     
