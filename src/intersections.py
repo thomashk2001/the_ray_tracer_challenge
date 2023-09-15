@@ -30,9 +30,11 @@ class Intersections():
     return result
   
 def intersect(sphere, ray):
-    sphere_to_ray = ray.origin - Point(0, 0, 0)
-    a = ray.direction.dot(ray.direction)
-    b = 2 * ray.direction.dot(sphere_to_ray)
+    inverse_sphere_matrix = sphere.transform.inverse()
+    ray2 = ray.transform(inverse_sphere_matrix)
+    sphere_to_ray = ray2.origin - Point(0, 0, 0)
+    a = ray2.direction.dot(ray2.direction)
+    b = 2 * ray2.direction.dot(sphere_to_ray)
     c = sphere_to_ray.dot(sphere_to_ray) -1
     discriminant = pow(b, 2) -4 * a * c
     if discriminant < 0:
