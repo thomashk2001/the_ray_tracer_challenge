@@ -76,3 +76,53 @@ class TestSpheres(unittest.TestCase):
     s.set_transform(Translation(5, 0, 0))
     xs = intersect(s, r)
     self.assertEqual(len(xs),0)
+    
+  def test_normal_of_sphere_at_a_point_on_x_axis(self):
+    s = Sphere()
+    n = s.normal_at(Point(1, 0 ,0))
+    self.assertEqual(n, Vector(1, 0, 0))
+    
+  def test_normal_of_sphere_at_a_point_on_y_axis(self):
+    s = Sphere()
+    n = s.normal_at(Point(0, 1 ,0))
+    self.assertEqual(n, Vector(0, 1, 0))
+  
+  def test_normal_of_sphere_at_a_point_on_z_axis(self):
+    s = Sphere()
+    n = s.normal_at(Point(0, 0 ,1))
+    self.assertEqual(n, Vector(0, 0, 1))
+  
+  def test_normal_of_sphere_at_a_point_on_non_axial_point(self):
+    s = Sphere()
+    n = s.normal_at(Point(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3))
+    self.assertEqual(n, Vector(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3))
+  
+  def test_normal_is_normalized_vector(self):
+    s = Sphere()
+    n = s.normal_at(Point(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3))
+    self.assertEqual(n, n.normalize())
+  
+  def test_normal_on_translated_sphere(self):
+    s = Sphere()
+    s.set_transform(Translation(0, 1, 0))
+    n = s.normal_at(Point(0, 1.70711, -0.70711))
+    self.assertEqual(n, Vector(0, 0.70711, -0.70711))
+  
+  def test_normal_on_transformed_sphere(self):
+    s = Sphere()
+    m = Scaling(1, 0.5, 1) * RotationZ(pi/5)
+    s.set_transform(m)
+    n = s.normal_at(Point(0, sqrt(2)/2, -sqrt(2)/2))
+    self.assertEqual(n, Vector(0, 0.97014, -0.24254))
+  
+  def test_sphere_has_default_material(self):
+    s = Sphere()
+    m = s.material
+    self.assertEqual(m, Material())
+  
+  def test_sphere_has_assigned_material(self):
+    s = Sphere()
+    m = Material()
+    m.ambient = 1
+    s.material = m
+    self.assertEqual(s.material, m)

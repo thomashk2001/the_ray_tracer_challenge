@@ -137,3 +137,15 @@ class TestTuples(unittest.TestCase):
     c2 = Color(0.9, 1, 0.1)
     r = c1 * c2
     self.assertEqual(r, Color(0.9, 0.2, 0.04))
+  
+  def test_reflecting_vector_at_45(self):
+    v = Vector(1, -1, 0)
+    n = Vector(0, 1, 0)
+    r = v.reflect(n)
+    self.assertEqual(r, Vector(1, 1, 0))
+  
+  def test_reflecting_vector_off_slanted_surface(self):
+    v = Vector(0, -1, 0)
+    n = Vector(sqrt(2)/2, sqrt(2)/2, 0)
+    r = v.reflect(n)
+    self.assertEqual(r, Vector(1, 0 , 0))
