@@ -24,14 +24,14 @@ class Tuple:
   
   # add method has additional ifs to maintain class type accordingly in case 
   # of V + V, P + V or V + P. P:Point, V:Vector
+  # P + V = P
+  # V + V = V
+  # V + P = P valid but not contemplated!
   def __add__(self, other):
     if self.w and other.w: # TODO:change to assert to disable on main run
       raise("Error: Adding points not allowed")
     x,y,z,w = self.add(other)
-    if self.w:  #TODO: DECIDE THIS !
-      return Point(x,y,z,w)
-    else:
-      return Vector(x,y,z,w)
+    return self.__class__(x, y, z, w)
     
   def sub(self, other):
     return(self.x - other.x, self.y - other.y, self.z - other.z, self.w - other.w)

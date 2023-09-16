@@ -20,6 +20,8 @@ class TestMaterial(unittest.TestCase):
     normalv = Vector(0, 0, -1)
     light = Light(Point(0, 0, -10), Color(1, 1, 1))
     result = lighting(m, light, position, eyev, normalv)
+    print(type(result))
+    self.assertEqual(True, isinstance(result, Color))
     self.assertEqual(result, Color(1.9, 1.9, 1.9))
   
   def test_lighting_with_eye_between_light_and_surface_offset_45(self):
@@ -28,6 +30,7 @@ class TestMaterial(unittest.TestCase):
     normalv = Vector(0, 0, -1)
     light = Light(Point(0, 0, -10), Color(1, 1, 1))
     result = lighting(m, light, position, eyev, normalv)
+    self.assertEqual(True, isinstance(result, Color))
     self.assertEqual(result, Color(1, 1, 1))
   
   def test_lighting_with_eye_oposite_surface_light_offset_45(self):
@@ -36,6 +39,7 @@ class TestMaterial(unittest.TestCase):
     normalv = Vector(0, 0, -1)
     light = Light(Point(0, 10, -10), Color(1, 1, 1))
     result = lighting(m, light, position, eyev, normalv)
+    self.assertEqual(True, isinstance(result, Color))
     self.assertEqual(result, Color(0.7364, 0.7364, 0.7364))
   
   def test_lighting_with_eye_in_path_of_reflect_vector(self):
@@ -44,6 +48,7 @@ class TestMaterial(unittest.TestCase):
     normalv = Vector(0, 0, -1)
     light = Light(Point(0, 10, -10), Color(1, 1, 1))
     result = lighting(m, light, position, eyev, normalv)
+    self.assertEqual(True, isinstance(result, Color))
     self.assertEqual(result, Color(1.6364, 1.6364, 1.6364))
   
   def test_lighting_with_light_behind_surface(self):
@@ -52,4 +57,5 @@ class TestMaterial(unittest.TestCase):
     normalv = Vector(0, 0, -1)
     light = Light(Point(0, 0, 10), Color(1, 1, 1))
     result = lighting(m, light, position, eyev, normalv)
+    self.assertEqual(True, isinstance(result, Color))
     self.assertEqual(result, Color(0.1, 0.1, 0.1))
