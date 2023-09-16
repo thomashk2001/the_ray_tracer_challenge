@@ -1,12 +1,10 @@
 from tuple import Color
 from copy import copy
 class Canvas():
-  def __init__(self, width, height, color = None):
+  def __init__(self, width, height, color = Color(0,0,0)):
     self.width = width
     self.height = height
-    canvas_color = Color(0,0,0)
-    if color:
-      canvas_color = color
+    canvas_color = color
     self.canvas_color = canvas_color
     self.canvas = [[self.canvas_color] * width for _ in range(height)]
   
