@@ -11,7 +11,5 @@ class Ray():
   
   def transform(self, matrix):
     new_origin = matrix * self.origin
-    print(new_origin)
     new_direction = matrix * self.direction
-    print(new_direction)
     return Ray(new_origin, new_direction)
