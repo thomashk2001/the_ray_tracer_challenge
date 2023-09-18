@@ -1,6 +1,7 @@
 import unittest
 from intersections import *
 from sphere import *
+from ray import *
 class TestSpheres(unittest.TestCase):
   def test_intersection_encapsulates_t_object(self):
     s = Sphere()
@@ -12,7 +13,7 @@ class TestSpheres(unittest.TestCase):
     s = Sphere()
     i1 = Intersection(1, s)
     i2 = Intersection(2, s)
-    xs = Intersections(i1, i2)
+    xs = Intersections([i1, i2])
     self.assertEqual(xs.count, 2)
     self.assertEqual(xs[0].object, s)
     self.assertEqual(xs[1].object, s)
@@ -21,7 +22,7 @@ class TestSpheres(unittest.TestCase):
     s = Sphere()
     i1 = Intersection(1, s)
     i2 = Intersection(2, s)
-    xs = Intersections(i1, i2)
+    xs = Intersections([i1, i2])
     i = xs.hits()
     self.assertEqual(i, i1)
     
@@ -29,7 +30,7 @@ class TestSpheres(unittest.TestCase):
     s = Sphere()
     i1 = Intersection(-1, s)
     i2 = Intersection(1, s)
-    xs = Intersections(i1, i2)
+    xs = Intersections([i1, i2])
     i = xs.hits()
     self.assertEqual(i, i2)
   
@@ -37,7 +38,7 @@ class TestSpheres(unittest.TestCase):
     s = Sphere()
     i1 = Intersection(-5, s)
     i2 = Intersection(-7, s)
-    xs = Intersections(i1, i2,)
+    xs = Intersections([i1, i2])
     i = xs.hits()
     self.assertEqual(i, None)
   
@@ -47,8 +48,34 @@ class TestSpheres(unittest.TestCase):
     i2 = Intersection(7, s)
     i3 = Intersection(-3, s)
     i4 = Intersection(2, s)
-    xs = Intersections(i1, i2, i3, i4)
+    xs = Intersections([i1, i2, i3, i4])
     i = xs.hits()
     self.assertEqual(i, i4)
 
+  def test_pre_computing_state_of_an_intersection(self):
+    r = Ray(Point(0, 0, -5), Vector(0, 0, 1))
+    shape = Sphere()
+    i = Intersection(4, shape)
+    comps = i.prepare_computations(r)
+    self.assertEqual(comps.t, i.t)
+    self.assertEqual(comps.object, i.object)
+    self.assertEqual(comps.point, Point(0, 0, -1))
+    self.assertEqual(comps.eyev, Vector(0, 0, -1))
+    self.assertEqual(comps.normalv, Vector(0, 0, -1))
 
+  def test_hit_intersections_occurs_on_the_outside(self):
+    r = Ray(Point(0, 0, -5), Vector(0, 0, 1))
+    shape = Sphere()
+    i = Intersection(4, shape)
+    comps = i.prepare_computations(r)
+    self.assertEqual(comps.inside, False)
+  
+  def test_hit_intersections_occurs_on_the_inside(self):
+    r = Ray(Point(0, 0, 0), Vector(0, 0, 1))
+    shape = Sphere()
+    i = Intersection(1, shape)
+    comps = i.prepare_computations(r)
+    self.assertEqual(comps.point, Point(0, 0, 1))
+    self.assertEqual(comps.eyev, Vector(0, 0, -1))
+    self.assertEqual(comps.inside, True)
+    self.assertEqual(comps.normalv, Vector(0, 0, -1))

@@ -115,4 +115,40 @@ class TestTransformation(unittest.TestCase):
     C = Translation(10, 5, 7)
     T = C * B * A * p
     self.assertEqual(T, Point(15, 0, 7))
+  
+  def test_transformation_matrix_default_orientation(self):
+    from_p = Point(0, 0, 0)
+    to = Point(0, 0, -1)
+    up = Vector(0, 1, 0)
+    t = ViewTransform(from_p, to, up)
+    self.assertEqual(t, identity_matrix(4))
+    
+  def test_view_transformation_matrix_looking_in_positive_z_direction(self):
+    from_p = Point(0, 0, 0)
+    to = Point(0, 0, 1)
+    up = Vector(0, 1, 0)
+    t = ViewTransform(from_p, to, up)
+    self.assertEqual(t, Scaling(-1, 1, -1))
+    
+  def test_view_transformation_moves_the_world(self):
+    from_p = Point(0, 0, 8)
+    to = Point(0, 0, 0)
+    up = Vector(0, 1, 0)
+    t = ViewTransform(from_p, to, up)
+    self.assertEqual(t, Translation(0, 0, -8))
+    
+  def test_arbitrary_view_transformation(self):
+    from_p = Point(1, 3, 2)
+    to = Point(4, -2, 8)
+    up = Vector(1, 1, 0)
+    t = ViewTransform(from_p, to, up)
+    expected = Matrix(size= 4)
+    expected.matrix = [
+      [-0.50709, 0.50709, 0.67612, -2.36643],
+      [0.76772, 0.60609, 0.12122, -2.82843],
+      [-0.35857, 0.59761, -0.71714, 0.00000],
+      [0.00000, 0.00000, 0.00000, 1.00000]
+    ]
+    self.assertEqual(t, expected)
+    
     

@@ -27,7 +27,7 @@ for y in range(canvas_pixel):
     r = Ray(ray_origin, direction.normalize())
     xs = intersect(shape, r)
     if len(xs) > 0:
-      i = Intersections(xs[0], xs[1])
+      i = Intersections([xs[0], xs[1]])
       if i.hits():
         canvas.write_pixel(x,y,color)
   progress_bar.update(1)

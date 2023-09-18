@@ -1,5 +1,16 @@
 from tuple import *
 from copy import copy
+from copy import deepcopy
+
+class Computations():
+  def __init__(self, t = 0, object = None, point = None, eyev = None, normalv = None, inside = False):
+    self.t = t
+    self.object = copy(object)
+    self.point = point
+    self.eyev = eyev
+    self.normalv = normalv
+    self. inside = inside
+
 
 class Intersection():
   def __init__(self, t, object):
@@ -8,11 +19,24 @@ class Intersection():
   
   def __eq__(self, other):
     return self.t == other.t and self.object == other.object 
+  
+  def prepare_computations(self, ray):
+    comps = Computations()
+    comps.t = self.t
+    comps.object = deepcopy(self.object)
+    comps.point = ray.position(self.t)
+    comps.eyev = -ray.direction
+    comps.normalv = comps.object.normal_at(comps.point)
+    if comps.normalv.dot(comps.eyev) < 0:
+      comps.inside = True
+      comps.normalv = -comps.normalv
+    return comps
 
 class Intersections():
-  def __init__(self, *intersections):
-    # uses tuple, if necessary change to list by copying each item one by one to list.
-    self.intersections = sorted(intersections,key=lambda x: x.t)
+  def __init__(self, intersections):
+    self.intersections = []
+    if len(intersections) > 0:
+      self.intersections = sorted(intersections,key=lambda x: x.t)
   
   def __getitem__(self, key):
     return self.intersections[key]
@@ -46,3 +70,10 @@ def intersect(sphere, ray):
       results.append(Intersection((-b + root_discriminant) / (2 * a), sphere))
       results.sort(key=lambda x: x.t)
       return results
+
+def intersect_world(world, ray):
+  result = []
+  for object in world.contains:
+    result.extend(intersect(object, ray))
+  result.sort(key=lambda x: x.t)
+  return result

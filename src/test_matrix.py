@@ -3,7 +3,6 @@ from matrix import *
 class TestMatrix(unittest.TestCase):
   def test_construct_inspect_4by4_matrix(self):
     M = Matrix()
-    print()
     M.matrix = [
       [1, 2, 3, 4],
       [5.5, 6.5, 7.5, 8.5],
