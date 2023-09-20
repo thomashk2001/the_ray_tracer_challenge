@@ -28,7 +28,7 @@ for y in range(canvas_pixel):
     xs = intersect(shape, r)
     if len(xs) > 0:
       i = Intersections([xs[0], xs[1]])
-      if i.hits():
+      if i.hit():
         canvas.write_pixel(x,y,color)
   progress_bar.update(1)
 canvas.save_to_disk()

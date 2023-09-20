@@ -9,13 +9,13 @@ class Light():
   def __eq__(self, other):
     return self.intensity == other.intensity and self.position == other.position
 
-def lighting(material, light, point, eyev, normalv):
+def lighting(material, light, point, eyev, normalv, in_shadow=False):
   effective_color = material.color * light.intensity
   lightv = light.position - point
   lightv = lightv.normalize()
   ambient = effective_color * material.ambient
   light_dot_normal = lightv.dot(normalv)
-  if light_dot_normal < 0:
+  if light_dot_normal < 0 or in_shadow:
     diffuse = Color(0, 0, 0)
     specular = Color(0, 0, 0)
   else:

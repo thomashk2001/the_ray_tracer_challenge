@@ -75,3 +75,40 @@ class TestWorld(unittest.TestCase):
     r = Ray(Point(0, 0, 0.75), Vector(0, 0, -1))
     c = w.color_at(r)
     self.assertEqual(c, inner.material.color)
+  def test_no_shadow_when_nothing_is_colinear_with_point_light(self):
+    w = World()
+    w.default_world()
+    p = Point(0, 10, 0)
+    self.assertEqual(w.is_shadowed(p, w.lights[0]), False)
+    
+  def test_shadow_when_object_is_between_point_light(self):
+    w = World()
+    w.default_world()
+    p = Point(10, -10, 10)
+    self.assertEqual(w.is_shadowed(p, w.lights[0]), True)
+  
+  def test_no_shadow_when_object_is_behind_light(self):
+    w = World()
+    w.default_world()
+    p = Point(-20, 20, -20)
+    self.assertEqual(w.is_shadowed(p, w.lights[0]), False)
+  
+  def test_no_shadow_when_object_is_behind_point(self):
+    w = World()
+    w.default_world()
+    p = Point(-2, 2, -2)
+    self.assertEqual(w.is_shadowed(p, w.lights[0]), False)
+    
+  def test_shade_hit_shadow(self):
+    w = World()
+    w.lights.append(Light(Point(0, 0, -10), Color(1, 1, 1)))
+    s1 = Sphere()
+    w.contains.append(s1)
+    s2 = Sphere()
+    s2.set_transform(Translation(0, 0, 10))
+    w.contains.append(s2)
+    r = Ray(Point(0, 0, 5), Vector(0, 0, 1))
+    i = Intersection(4, s2)
+    comps = i.prepare_computations(r)
+    c = w.shade_hit(comps)
+    self.assertEqual(c, Color(0.1, 0.1, 0.1))

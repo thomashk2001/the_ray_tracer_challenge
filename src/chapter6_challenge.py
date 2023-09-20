@@ -35,7 +35,7 @@ for y in range(canvas_pixel):
     xs = intersect(shape, r)
     if len(xs) > 0:
       i = Intersections([xs[0], xs[1]])
-      intersection =  i.hits()
+      intersection =  i.hit()
       point = r.position(intersection.t)
       normal = intersection.object.normal_at(point)
       eye = -r.direction

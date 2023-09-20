@@ -3,13 +3,14 @@ from copy import copy
 from copy import deepcopy
 
 class Computations():
-  def __init__(self, t = 0, object = None, point = None, eyev = None, normalv = None, inside = False):
+  def __init__(self, t = 0, object = None, point = None, eyev = None, normalv = None, inside = False, over_point = None):
     self.t = t
     self.object = copy(object)
     self.point = point
     self.eyev = eyev
     self.normalv = normalv
     self. inside = inside
+    self.over_point = over_point
 
 
 class Intersection():
@@ -30,10 +31,11 @@ class Intersection():
     if comps.normalv.dot(comps.eyev) < 0:
       comps.inside = True
       comps.normalv = -comps.normalv
+    comps.over_point = comps.point + comps.normalv * EPSILON
     return comps
 
 class Intersections():
-  def __init__(self, intersections):
+  def __init__(self, intersections = []):
     self.intersections = []
     if len(intersections) > 0:
       self.intersections = sorted(intersections,key=lambda x: x.t)
@@ -45,7 +47,7 @@ class Intersections():
   def count(self):
     return len(self.intersections)
   
-  def hits(self):
+  def hit(self):
     result = None
     for intersection in self.intersections:
       if intersection.t >=0:

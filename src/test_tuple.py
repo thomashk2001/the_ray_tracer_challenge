@@ -67,23 +67,23 @@ class TestTuples(unittest.TestCase):
     
   def test_magnitud_100(self):
     v = Vector(1, 0, 0)
-    self.assertEqual(v.magnitud(), 1)
+    self.assertEqual(v.magnitude(), 1)
     
   def test_magnitud_010(self):
     v = Vector(0, 0, 1)
-    self.assertEqual(v.magnitud(), 1)
+    self.assertEqual(v.magnitude(), 1)
   
   def test_magnitud_001(self):
     v = Vector(0, 1, 0)
-    self.assertEqual(v.magnitud(), 1)
+    self.assertEqual(v.magnitude(), 1)
     
   def test_magnitud_123(self):
     v = Vector(1,2,3)
-    self.assertEqual(v.magnitud(), sqrt(14))
+    self.assertEqual(v.magnitude(), sqrt(14))
     
   def test_magnitud_neg123(self):
     v = Vector(-1,-2,-3)
-    self.assertEqual(v.magnitud(), sqrt(14))
+    self.assertEqual(v.magnitude(), sqrt(14))
   
   def test_normalize_vector_400(self):
     v = Vector(4, 0 , 0)
@@ -96,7 +96,7 @@ class TestTuples(unittest.TestCase):
   def test_normalized_vector_magnitud(self):
     v = Vector(1, 2 , 3)
     norm = v.normalize()
-    self.assertEqual(norm.magnitud(), 1)
+    self.assertEqual(norm.magnitude(), 1)
   
   def test_dot(self):
     a = Vector(1, 2 , 3)

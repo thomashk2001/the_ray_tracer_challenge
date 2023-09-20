@@ -21,27 +21,37 @@ class World():
   def shade_hit(self, comps):
     result_color = Color(0, 0, 0)
     material = comps.object.material
-    point = comps.point
+    point = comps.over_point
     eyev = comps.eyev
     normalv = comps.normalv
     for light in self.lights:
-      result_color += lighting(material, light, point, eyev, normalv)
+      is_shadowed = self.is_shadowed(point, light)
+      result_color += lighting(material, light, point, eyev, normalv, is_shadowed)
     return result_color
   
   def color_at(self, ray):
     result_color = Color(0, 0, 0)
     intersections = intersect_world(self, ray)
     intersections = Intersections(intersections)
-    hit = intersections.hits()
+    hit = intersections.hit()
     if hit:
       comps = hit.prepare_computations(ray)
       result_color = self.shade_hit(comps)
     return result_color
-
-
-
-# w = World()
-# w.default_world()
-# r = Ray(Point(0, 0, -5), Vector(0, 1, 0))
-# c = w.color_at(r)
-# self.assertEqual(c, Color(0, 0, 0))
+  
+  # TODO: TEST IF THIS FUNCTIONS WORKS WITH MULTIPLE LIGHT SOURCES
+  def is_shadowed(self, point, light):
+    result = False
+    v = light.position - point
+    distance = v.magnitude()
+    direction = v.normalize()
+    r = Ray(point, direction)
+    intersections = intersect_world(self, r)
+    intersections = Intersections(intersections)
+    h = intersections.hit()
+    if h and h.t < distance:
+      result = True
+    else:
+      result = False
+    return result
+      

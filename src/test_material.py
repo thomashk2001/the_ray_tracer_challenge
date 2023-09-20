@@ -59,3 +59,15 @@ class TestMaterial(unittest.TestCase):
     result = lighting(m, light, position, eyev, normalv)
     self.assertEqual(True, isinstance(result, Color))
     self.assertEqual(result, Color(0.1, 0.1, 0.1))
+    
+  def test_lighting_surface_in_shadow(self):
+    m , position = self.background()
+    eyev = Vector(0, 0, -1)
+    normalv = Vector(0, 0, -1)
+    light = Light(Point(0, 0, -10), Color(1, 1, 1))
+    in_shadow = True
+    result = lighting(m, light, position, eyev, normalv, in_shadow)
+    print(type(result))
+    self.assertEqual(True, isinstance(result, Color))
+    self.assertEqual(result, Color(0.1, 0.1, 0.1))
+  
