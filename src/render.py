@@ -3,6 +3,7 @@ from camera import *
 from world import *
 from tqdm import tqdm
 import os
+import platform
 class Data():
   def __init__(self, x,  y, camera, world):
     self.x = x
@@ -33,7 +34,11 @@ def join_results_to_canvas(results, camera):
   return image
 def render_image(camera, world, number_of_processes):
   data = prepare_data(camera, world)
-  pool = multiprocessing.get_context("fork").Pool(processes=number_of_processes)
+  os = platform.system()
+  context_type = "fork"
+  if os == 'Windows':
+    context_type = "spawn"
+  pool = multiprocessing.get_context(context_type).Pool(processes=number_of_processes)
   results = list(tqdm(pool.imap(render_pixels, data), total=len(data), desc="Generating Image"))
   pool.join
   pool.close()
@@ -96,7 +101,7 @@ world = World()
 world.contains = [floor, left_wall, right_wall, middle, left, right]
 world.lights = [Light(Point(-10, 10, -10), Color(1, 1, 1))]
 
-camera = Camera(2000, 1000, pi/3)
+camera = Camera(2560,1440, pi/3)
 camera.transform = ViewTransform(Point(0, 1.5, -5), Point(0, 1, 0), Vector(0, 1, 0))
 
 render_image(camera,world,multiprocessing.cpu_count())
